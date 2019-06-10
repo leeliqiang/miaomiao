@@ -50,11 +50,13 @@ export default {
   watch: {
     message(newVal) {
       this.cancelRequest();
-      var that = this;
+       var that = this;
+      var cityId=this.$store.state.city.id;
+     
       // clearTimeout()
       // setTimeout()
       // console.log(newVal);
-      this.axios("/api/searchList?cityId=10&kw=" + newVal, {
+      this.axios('/api/searchList?cityId='+ cityId +'&kw='+newVal, {
         cancelToken:new this.axios.CancelToken(function(c) {
           that.source = c;
         })
