@@ -141,15 +141,15 @@ export default {
 };
 </script>
 
-<style>
-#content .city_body {
+<style scoped>
+ #content .city_body {
   margin-top: 45px;
   display: flex;
   width: 100%;
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   bottom: 0;
-}
+} 
 .city_body .city_list {
   flex: 1;
   overflow: auto;
@@ -210,5 +210,5 @@ export default {
   justify-content: center;
   text-align: center;
   border-left: 1px #e6e6e6 solid;
-}
+} 
 </style>

@@ -16,17 +16,18 @@
         </router-link>
       </div>
       <keep-alive>
-        <router-view></router-view>
+        <router-view/>
       </keep-alive>
     </dir>
     <TabBar/>
+    <router-view name="detail"/>
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header";
 import TabBar from "@/components/TabBar";
-import {messageBox} from "@/components/JS";
+import { messageBox } from "@/components/JS";
 
 export default {
   name: "Movie",
@@ -34,32 +35,30 @@ export default {
     Header,
     TabBar
   },
-  mounted(){
+  mounted() {
     setTimeout(() => {
-         this.axios.get('/api/getLocation').then((res)=>{
-      var msg = res.data.msg;
-      if(msg==='ok'){
-        var nm = res.data.data.nm;
-        var id = res.data.data.id;
-        if(this.$store.state.city.id==id){
-          return;
+      this.axios.get("/api/getLocation").then(res => {
+        var msg = res.data.msg;
+        if (msg === "ok") {
+          var nm = res.data.data.nm;
+          var id = res.data.data.id;
+          if (this.$store.state.city.id == id) {
+            return;
+          }
+          messageBox({
+            title: "定位",
+            content: nm,
+            cancel: "取消",
+            ok: "切换定位",
+            handleOk() {
+              window.localStorage.setItem("nowNm", nm);
+              window.localStorage.setItem("nowId", id);
+              window.location.reload();
+            }
+          });
         }
-        messageBox({
-      title:"定位",
-      content:nm,
-      cancel:'取消',
-      ok:"切换定位",
-        handleOk(){
-          window.localStorage.setItem('nowNm',nm)
-          window.localStorage.setItem('nowId',id)
-          window.location.reload();
-        }
-    })
-      }
-    })
+      });
     }, 3000);
-   
-    
   }
 };
 </script>
@@ -88,7 +87,14 @@ export default {
   height: 100%;
   line-height: 45px;
 }
-
+#content .city_body {
+  margin-top: 45px;
+  display: flex;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
 .movie_menu .city_name.router-link-active {
   color: #ef4238;
   border-bottom: 2px #ef4238 solid;
